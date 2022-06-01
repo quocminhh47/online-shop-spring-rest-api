@@ -2,7 +2,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="/WEB-INF/views/include/user/menu.jsp" %>
 <%@taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f" %>
-<%--<%@include file="/WEB-INF/views/include/bootstrap-lib.jsp" %>--%>
 <!DOCTYPE html>
 
 <head>
@@ -10,8 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
-    <script src="<c:url value='/paging/jquery.twbsPagination.js'/>" type="text/javascript"></script>
-    <%--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>--%>
+    <script src="/paging/jquery.twbsPagination.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         <!-- Ajax Begin -->
@@ -26,8 +24,6 @@
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8080/api/product/show?page=" + firstPage + "&limit=8",
-
-                // url: "http://localhost:8080/api/all-product",
                 success: function (nal) {
                     const parent = document.getElementById('parents');
                     console.log("---------------------");
@@ -73,7 +69,7 @@
             const parent = document.getElementById('parents');
 
             for (let i = 0; i < array.length; i++) {
-                var price = formatter.format(array[i].price * (1 - array[i].discount));
+                var price = formatter.format(array[i].price * (100 - array[i].discount)/100);
                 var oldPrice = formatter.format(array[i].price);
                 var url = array[i].urlImage;
                 parent.innerHTML += '<div class="col-lg-3 col-md-4 col-sm-6 mix women " style="rounded;">' +
@@ -85,12 +81,12 @@
                     ' <ul class="product__hover" >' +
                     ' <li><a href="' + url + ' " class="image-popup " target="_blank" rel="noopener noreferrer"><span class="arrow_expand"></span></a></li>' +
                     ' <li><a href="#"><span class="icon_heart_alt"></span></a></li>' +
-                    '<li><a href="detail-item.htm"><span class="icon_bag_alt"></span></a></li>' +
+                    '<li><a href="#"><span class="icon_bag_alt"></span></a></li>' +
                     ' </ul>' +
                     ' </div>' +
                     ' <div class="product__item__text">' +
                     ' <h6><a>Mã SP:' + array[i].id + ' </a></h6>' +
-                    ' <h5><a href="detail-item-' + array[i].id + '.htm">' + array[i].name + '</a></h5>' +
+                    ' <h5><a href="/home/detail-' + array[i].id + '.htm">' + array[i].name + '</a></h5>' +
                     ' <h6><a>Hãng: ' + array[i].brand.name + '</a></h6>' +
                     ' <div class="text-center">' +
                     '<p>Giá rẻ: <span class="product__price" id="cheap-price">' + price + '</span>' +
@@ -122,14 +118,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
           rel="stylesheet">
     <!-- Css Styles -->
-    <link rel="stylesheet" href="<c:url value='/details/css/bootstrap.min.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/font-awesome.min.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/elegant-icons.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/jquery-ui.min.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/magnific-popup.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/owl.carousel.min.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/slicknav.min.css'/>" type="text/css">
-    <link rel="stylesheet" href="<c:url value='/details/css/style.css'/>" type="text/css">
+    <link rel="stylesheet" href="/details/css/bootstrap.min.css?version=51" type="text/css">
+    <link rel="stylesheet" href="/details/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/style.css" type="text/css">
 </head>
 
 <body onload="getAllProduct()">
@@ -140,7 +136,7 @@
     <div class="loader"></div>
 </div>
 <!-- Banner Section Begin -->
-<section class="banner set-bg" data-setbg="<c:url value='/details/img/banner/banner2.jpg'/>">
+<section class="banner set-bg" data-setbg="/details/img/banner/banner0.jpg">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">

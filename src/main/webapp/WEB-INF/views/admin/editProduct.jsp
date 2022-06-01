@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sign Up Form by Colorlib</title>
-
     <!-- Font Icon -->
     <!-- <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css"> -->
     <link rel="stylesheet" href="<c:url value='/admin/fonts/material-icon/css/material-design-iconic-font.min.css'/>"/>
@@ -17,7 +16,7 @@
 
     <!-- Main css -->
     <!-- <link rel="stylesheet" href="css/style.css"> -->
-    <link rel="stylesheet" href="<c:url value='/admin/css/style.css'/>"/>
+    <link rel="stylesheet" href="<c:url value='/admin/css/style.css?version=51'/>"/>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>

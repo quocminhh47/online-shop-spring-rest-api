@@ -8,10 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "Confirmation_Token")
 public class ConfirmationToken {
@@ -46,4 +42,63 @@ public class ConfirmationToken {
         this.users = users;
     }
 
+    public ConfirmationToken() {
+    }
+
+    public ConfirmationToken(Long id, String token, LocalDateTime createAt, Users users, LocalDateTime expiredAt, LocalDateTime confirmedAt) {
+        this.id = id;
+        this.token = token;
+        this.createAt = createAt;
+        this.users = users;
+        this.expiredAt = expiredAt;
+        this.confirmedAt = confirmedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public LocalDateTime getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
+    public LocalDateTime getConfirmedAt() {
+        return confirmedAt;
+    }
+
+    public void setConfirmedAt(LocalDateTime confirmedAt) {
+        this.confirmedAt = confirmedAt;
+    }
 }

@@ -3,19 +3,21 @@ package com.ptithcm.quanlybanxe.service.impl;
 import com.ptithcm.quanlybanxe.entity.Contact;
 import com.ptithcm.quanlybanxe.repository.ContactRepository;
 import com.ptithcm.quanlybanxe.service.ContactService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
 
 @Service
-@RequiredArgsConstructor
 public class ContactServiceImpl implements ContactService {
     private final ContactRepository contactRepository;
     private final JavaMailSender javaMailSender;
+
+    public ContactServiceImpl(ContactRepository contactRepository, JavaMailSender javaMailSender) {
+        this.contactRepository = contactRepository;
+        this.javaMailSender = javaMailSender;
+    }
 
     @Override
     public Boolean saveContact(Contact contact) {

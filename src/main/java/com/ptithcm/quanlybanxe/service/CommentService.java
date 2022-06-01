@@ -9,5 +9,9 @@ public interface CommentService {
     Comment saveComment(String productID, CommentDTO commentDTO);
     List<Comment> findAllComment();
     List<Comment> findAllCommentByIdProduct(String productID);
+    //Add comment
+    Comment addComment(Comment comment);
+    void deleteComment(Integer id);
+    Comment findCommentByID(Integer id);
 
 }

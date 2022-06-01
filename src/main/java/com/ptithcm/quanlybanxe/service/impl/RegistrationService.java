@@ -8,14 +8,12 @@ import com.ptithcm.quanlybanxe.model.EmailSender;
 import com.ptithcm.quanlybanxe.model.RegistrationRequest;
 import com.ptithcm.quanlybanxe.repository.RoleRepository;
 import com.ptithcm.quanlybanxe.service.IRegistrationService;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
 public class RegistrationService implements IRegistrationService {
    private final UserServiceImpl userService;
     private final RoleRepository roleRepository;
@@ -23,20 +21,29 @@ public class RegistrationService implements IRegistrationService {
     private final EmailSender emailSender;
     private final ConfirmationTokenService confirmationTokenService;
 
+    public RegistrationService(UserServiceImpl userService, RoleRepository roleRepository, EmailValidator emailValidator, EmailSender emailSender, ConfirmationTokenService confirmationTokenService) {
+        this.userService = userService;
+        this.roleRepository = roleRepository;
+        this.emailValidator = emailValidator;
+        this.emailSender = emailSender;
+        this.confirmationTokenService = confirmationTokenService;
+    }
+
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if(!isValidEmail){
             throw  new IllegalStateException("email not valid");
         }
         Roles role = roleRepository.findById(10000).get();
+        Users u = new Users(
+                request.getEmail(),
+                request.getLastName(),
+                request.getFirstName(),
+                request.getPassword(),
+                role
+        );
         String token = userService.signUpUser(
-                new Users(
-                        request.getEmail(),
-                        request.getLastName(),
-                        request.getFirstName(),
-                        request.getPassword(),
-                        role
-                )
+              u
         );
 
         String link = "http://localhost:8080/v1/api/registration/confirm?token=" + token;

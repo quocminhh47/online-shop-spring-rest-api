@@ -39,7 +39,7 @@
             const parent = document.getElementById('parents');
 
             for (let i = 0; i < array.length; i++) {
-                var price = formatter.format(array[i].price * (1 - array[i].discount));
+                var price = formatter.format(array[i].price * (100 - array[i].discount)/100);
                 var oldPrice = formatter.format(array[i].price);
                 var url = array[i].urlImage;
                 parent.innerHTML += '<div class="col-lg-3 col-md-4 col-sm-6 mix women " style="rounded;">' +
@@ -51,12 +51,12 @@
                     ' <ul class="product__hover" >' +
                     ' <li><a href="' + url + ' " class="image-popup " target="_blank" rel="noopener noreferrer"><span class="arrow_expand"></span></a></li>' +
                     ' <li><a href="#"><span class="icon_heart_alt"></span></a></li>' +
-                    '<li><a href="detail-item.htm"><span class="icon_bag_alt"></span></a></li>' +
+                    '<li><a href="#"><span class="icon_bag_alt"></span></a></li>' +
                     ' </ul>' +
                     ' </div>' +
                     ' <div class="product__item__text">' +
                     ' <h6><a>Mã SP:' + array[i].id + ' </a></h6>' +
-                    ' <h5><a href="detail-item-' + array[i].id + '.htm">' + array[i].name + '</a></h5>' +
+                    ' <h5><a href="detail-' + array[i].id + '.htm">' + array[i].name + '</a></h5>' +
                     ' <h6><a>Hãng: ' + array[i].brand.name + '</a></h6>' +
                     ' <div class="text-center">' +
                     '<p>Giá rẻ: <span class="product__price" id="cheap-price">' + price + '</span>' +
@@ -106,7 +106,7 @@
     <div class="loader"></div>
 </div>
 <!-- Banner Section Begin -->
-<section class="banner set-bg" data-setbg="<c:url value='/details/img/banner/banner2.jpg'/>">
+<section class="banner set-bg" data-setbg="<c:url value='/details/img/banner/banner0.jpg'/>">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">

@@ -23,7 +23,7 @@ public class CartDetailServiceImpl {
         cartDetailRepository.save(cartDetail);
     }
     public void delete(CartDetail cartDetail){
-        cartDetailRepository.delete(cartDetail);
+        cartDetailRepository.deleteById(cartDetail.getId());
     }
 
 }

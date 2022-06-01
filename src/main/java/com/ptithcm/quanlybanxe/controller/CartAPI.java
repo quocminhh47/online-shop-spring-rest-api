@@ -56,6 +56,8 @@ public class CartAPI {
     //Method: POST -> Thêm/Sửa.
     //Nếu product đã có trong cart -> Update
     //Nếu product chưa có trong cart -> Add
+
+    //Add product to cart
     @PostMapping("/cart/{username}/cartDetails")
     public CartDetail save(@RequestBody CartDetail CartDetail, @PathVariable String username) {
         Users user = userRepository.findById(username).get();
@@ -68,7 +70,7 @@ public class CartAPI {
         return CartDetail;
     }
 
-    //Ok
+    //Remove product from cart
     @DeleteMapping("/cart/{username}/cartDetails")
     public CartDetail delete(@RequestBody CartDetail CartDetail, @PathVariable String username) {
         Users user = userRepository.findById(username).get();
@@ -80,8 +82,9 @@ public class CartAPI {
         CartDetailService.delete(CartDetail);
         return CartDetail;
     }
+    //Remove product from cart with mobile support
     @DeleteMapping("/cart/{username}/cartDetails/{productId}")
-    public CartDetail deleteV2(@PathVariable String username, @PathVariable String productId) {
+    public CartDetail deleteWithMobileSupport(@PathVariable String username, @PathVariable String productId) {
         Users user = userRepository.findById(username).get();
         CartDetail_ID id = new CartDetail_ID();
         id.setCartID(user.getCart().getId());

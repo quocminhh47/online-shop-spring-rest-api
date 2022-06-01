@@ -1,29 +1,26 @@
-package com.ptithcm.demospringboot.dto;
+package com.ptithcm.quanlybanxe.dto;
 
-import com.ptithcm.demospringboot.entity.Brand;
-import com.ptithcm.demospringboot.entity.Category;
-import com.ptithcm.demospringboot.entity.Product;
-import com.ptithcm.demospringboot.model.ProductDTO;
-import com.ptithcm.demospringboot.repository.BrandRepository;
-import com.ptithcm.demospringboot.repository.CategoryRepository;
-import com.ptithcm.demospringboot.repository.ProductRepository;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.ptithcm.quanlybanxe.entity.Brand;
+import com.ptithcm.quanlybanxe.entity.Category;
+import com.ptithcm.quanlybanxe.entity.Product;
+import com.ptithcm.quanlybanxe.model.ProductDTO;
+import com.ptithcm.quanlybanxe.repository.BrandRepository;
+import com.ptithcm.quanlybanxe.repository.CategoryRepository;
+import com.ptithcm.quanlybanxe.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 
 @Service
-@AllArgsConstructor
 public class ProductConverter {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
 
-//    public ProductConverter(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
-//        this.productRepository = productRepository;
-//        this.brandRepository = brandRepository;
-//        this.categoryRepository = categoryRepository;
-//    }
+    public ProductConverter(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
+        this.categoryRepository = categoryRepository;
+    }
 
     public Product productConvert(ProductDTO productDTO){
         Integer currentBrand_id = productDTO.getBrand_id();

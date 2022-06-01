@@ -16,12 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserServiceImpl userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public WebSecurityConfig(UserServiceImpl userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,13 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/loginFrm/**","/details/**", "/menu/**", "/paging/**", "/registration/**","/adminsrc/**")
                 .permitAll()
                 ;
-//        http.authorizeRequests().antMatchers("/home/**","/api/**").hasAnyRole("USER", "ADMIN");
+        http.authorizeRequests().antMatchers("/home/**").hasAnyRole("USER", "ADMIN");
         http.authorizeRequests().antMatchers("/user/**", "/v1/api/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/cart/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/login/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/bill/**").permitAll();
-
-
+        http.authorizeRequests().antMatchers("/api/**").permitAll();
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -67,7 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/loginFrm/**","/details/**", "/menu/**", "/paging/**");
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());

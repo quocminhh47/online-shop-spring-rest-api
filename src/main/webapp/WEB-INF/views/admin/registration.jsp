@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="/WEB-INF/views/include/user/menu.jsp" %>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,62 +79,62 @@
 </head>
 <body>
 
-    <div class="main">
+<div class="main">
 
-        <!-- Sign up form -->
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up for new member</h2>
-                        ${mess}
-                        <form  class="register-form" id="register-form">
-                            <div class="form-group">
-                                <label for="firstName"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="firstName" id="firstName" placeholder="Your First Name" required ="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="lastName" id="lastName" placeholder="Your Last Name" required="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"  required="required"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password"/>
-                            </div>
-                            <%--<div class="form-group">
-                                <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
-                            </div>--%>
-                            <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"  required="required" checked/>
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-                            </div>
-                            <div class="form-group form-button">
-                               <%-- <input  name="signup" id="signup" class="form-submit" value="Register" onclick="register()"/>--%>
-                                <%--<button class="form-submit" onclick="register()">Register</button>--%>
-                            </div>
-                        </form>
-                        <button class="form-submit" onclick="register()">Register</button>
-                    </div>
-                    <div class="signup-image">
-                        <figure><img src="<c:url value='/registration/images/signup.jpg'/>" alt="sing up image"></figure>
-                        <a href="${pageContext.request.contextPath}/login" class="signup-image-link">I am already member</a>
-                    </div>
+    <!-- Sign up form -->
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Sign up for new member</h2>
+                    ${mess}
+                    <form  class="register-form" id="register-form">
+                        <div class="form-group">
+                            <label for="firstName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="firstName" id="firstName" placeholder="Your First Name" required ="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="lastName" id="lastName" placeholder="Your Last Name" required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input type="email" name="email" id="email" placeholder="Your Email"  required="required"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="pass" id="pass" placeholder="Password"/>
+                        </div>
+                        <%--<div class="form-group">
+                            <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                        </div>--%>
+                        <div class="form-group">
+                            <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"  required="required" checked/>
+                            <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                        </div>
+                        <div class="form-group form-button">
+                            <%-- <input  name="signup" id="signup" class="form-submit" value="Register" onclick="register()"/>--%>
+                            <%--<button class="form-submit" onclick="register()">Register</button>--%>
+                        </div>
+                    </form>
+                    <button class="form-submit" onclick="register()">Register</button>
+                </div>
+                <div class="signup-image">
+                    <figure><img src="<c:url value='/registration/images/signup.jpg'/>" alt="sing up image"></figure>
+                    <a href="${pageContext.request.contextPath}/login" class="signup-image-link">I am already member</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Sing in  Form -->
-     
+    <!-- Sing in  Form -->
 
-    </div>
 
-    <!-- JS -->
-    <script src="<c:url value='/registration/vendor/jquery/jquery.min.js'/>"></script>
-    <script src="<c:url value='/registration/js/main.js'/>"></script>
+</div>
+
+<!-- JS -->
+<script src="<c:url value='/registration/vendor/jquery/jquery.min.js'/>"></script>
+<script src="<c:url value='/registration/js/main.js'/>"></script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

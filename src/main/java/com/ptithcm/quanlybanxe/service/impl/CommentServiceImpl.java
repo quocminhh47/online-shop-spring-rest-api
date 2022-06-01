@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -40,15 +42,30 @@ public class CommentServiceImpl implements CommentService {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             currentUserName = authentication.getName();
         }
-        Users users = userRepository.findById("user").get();
+        Users users = userRepository.findById(currentUserName).get();
         Comment comment = new Comment();
         comment.setProduct(product);
         comment.setUsersComment(users);
         comment.setNoiDung(commentDTO.getNoiDung());
-        comment.setCmt_time(new Date());
+        comment.setCmt_time(LocalDateTime.now());
         return commentRepository.save(comment);
+    }
 
+    @Override
+    public Comment addComment(Comment comment) {
+        return commentRepository.save(comment);
+    }
 
+    @Override
+    public void deleteComment(Integer id) {
+        Comment comment = commentRepository.findById(id).get();
+        System.out.println("ID:" +comment);
+        commentRepository.delete(comment);
+    }
+
+    @Override
+    public Comment findCommentByID(Integer id) {
+        return commentRepository.findById(id).get();
     }
 
     @Override

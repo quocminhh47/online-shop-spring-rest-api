@@ -1,10 +1,10 @@
 package com.ptithcm.quanlybanxe.service.impl;
 
+import com.ptithcm.quanlybanxe.entity.Bill;
 import com.ptithcm.quanlybanxe.entity.ConfirmationToken;
 import com.ptithcm.quanlybanxe.entity.Users;
 import com.ptithcm.quanlybanxe.repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 public class UserServiceImpl implements UserDetailsService {
     private final static String USER_NOT_FOUND_MSG =
             "user with email %s not found";
@@ -30,14 +30,24 @@ public class UserServiceImpl implements UserDetailsService {
 
     private final ConfirmationTokenService confirmationTokenService;
 
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.confirmationTokenService = confirmationTokenService;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        Users users = userRepository.findById(email).orElseThrow(
-                () -> new UsernameNotFoundException(
-                        String.format(USER_NOT_FOUND_MSG, email)
-                )
-        );
+        //Call api
+        RestTemplate restTemplate2 = new RestTemplate();
+        String url2 = "http://localhost:8080/user/"+email;
+        ResponseEntity<Users> response2 =
+                restTemplate2.getForEntity(
+                        url2,
+                        Users.class);
+        Users users = response2.getBody();
+
         return new org.springframework.security.core.userdetails.User(
                 users.getUsername(), users.getPassword(), getGrantedAuthorities(users));
     }
@@ -79,7 +89,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     private Collection<GrantedAuthority> getGrantedAuthorities(Users users){
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        if(users.getRoles().getRole().equalsIgnoreCase("admin")){
+        if(users.getRole().getRole().equalsIgnoreCase("admin")){
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
@@ -88,7 +98,7 @@ public class UserServiceImpl implements UserDetailsService {
 
     private String getUserRole(String email){
         Users users = userRepository.findById(email).get();
-        String role = users.getRoles().getRole();
+        String role = users.getRole().getRole();
         return role.toLowerCase();
     }
 

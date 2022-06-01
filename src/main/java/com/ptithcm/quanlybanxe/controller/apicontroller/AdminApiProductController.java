@@ -1,12 +1,12 @@
-package com.ptithcm.demospringboot.controller.apicontroller;
+package com.ptithcm.quanlybanxe.controller.apicontroller;
 
 
-import com.ptithcm.demospringboot.model.ProductDTO;
-import com.ptithcm.demospringboot.entity.Product;
-import com.ptithcm.demospringboot.model.Signal;
-import com.ptithcm.demospringboot.service.CommentService;
-import com.ptithcm.demospringboot.service.ProductService;
-
+import com.ptithcm.quanlybanxe.entity.Product;
+import com.ptithcm.quanlybanxe.model.ProductDTO;
+import com.ptithcm.quanlybanxe.model.Signal;
+import com.ptithcm.quanlybanxe.service.CommentService;
+import com.ptithcm.quanlybanxe.service.ProductService;
+import com.ptithcm.quanlybanxe.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

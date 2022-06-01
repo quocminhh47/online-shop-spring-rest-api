@@ -11,9 +11,10 @@
     <title>Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="/adminsrc/css/styles.css" rel="stylesheet" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 </head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed" onload="getProduct()">
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-3" href="index.html">QLBX</a>
@@ -24,7 +25,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
         </li>
     </ul>
@@ -63,6 +64,49 @@
     </div>
     <div id="layoutSidenav_content">
         <main>
+            <div class="container-fluid px-4">
+                <h1 class="mt-4">Products</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="index.html">QLXM</a></li>
+                    <li class="breadcrumb-item active">Products</li>
+                </ol>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Products
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Brand</th>
+                                <th>Type</th>
+                                <th>CC</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Discount</th>
+                                <th>Edit</th>
+
+
+                            </tr>
+                            </thead>
+
+                            <tbody id="my-table">
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <a class="btn btn-primary" href="http://localhost:8080/admin/insert/product" role="button">New Product</a>
+                </div>
+            </div>
+
         </main>
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
@@ -82,5 +126,39 @@
 <script src="/adminsrc/js/scripts.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="/adminsrc/js/datatables-simple-demo.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    function getProduct(){
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/admin/api/product/all-product",
+            success: function (data){
+                console.log(data);
+                fillTable(data);
+            }
+        })
+    }
+
+    function fillTable(array){
+        for(let i =0; i<array.length; i++){
+            let root = document.getElementById("my-table");
+            root.innerHTML += '<tr>'+
+                '<td>'+array[i].id+'</td>'+
+                '<td>'+array[i].name+'</td>'+
+                '<td>'+array[i].brand.name+'</td>'+
+                '<td>'+array[i].category.name+'</td>'+
+                '<td>'+array[i].cc+'</td>'+
+                '<td>'+array[i].price+'</td>'+
+                '<td>'+array[i].quantity+'</td>'+
+                '<td>'+array[i].status+'</td>'+
+                '<td>'+array[i].discount+'</td>'+
+                '<td>'+'<a href = "http://localhost:8080/admin/edit/product-'+array[i].id+'">Edit</a>'+'</td>'+
+
+                '</tr>'
+        }
+    }
+</script>
+
 </body>
 </html>

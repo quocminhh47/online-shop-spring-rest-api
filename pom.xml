@@ -13,8 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>QuanLyBanXe</name>
     <description>QuanLyBanXe</description>
-    <packaging>war
-    </packaging>
+    <packaging>war</packaging>
     <properties>
         <java.version>15</java.version>
     </properties>

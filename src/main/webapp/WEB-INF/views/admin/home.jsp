@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%><!DOCTYPE html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -24,7 +25,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -33,20 +34,26 @@
             <div id="layoutSidenav_nav">
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <a class="nav-link" href="/admin/bill">
-                                <div class="sb-nav-link-icon"></div>
-                                Bill
-                            </a>
-                            <a class="nav-link" href="/admin/bill/approveOrder">
-                                <div class="sb-nav-link-icon"></div>
-                                Approve Order
-                            </a>
-                            <a class="nav-link" href="/admin/bill/salesStatistics">
-                                <div class="sb-nav-link-icon"></div>
-                                Sales Statistics
-                            </a>
-                        </div>
+<%--                        <div class="nav">--%>
+<%--                            <a class="nav-link" href="/admin/bill">--%>
+<%--                                <div class="sb-nav-link-icon"></div>--%>
+<%--                                Bill--%>
+<%--                            </a>--%>
+<%--                            <a class="nav-link" href="/admin/bill/approveOrder">--%>
+<%--                                <div class="sb-nav-link-icon"></div>--%>
+<%--                                Approve Order--%>
+<%--                            </a>--%>
+<%--                            <a class="nav-link" href="/admin/bill/salesStatistics">--%>
+<%--                                <div class="sb-nav-link-icon"></div>--%>
+<%--                                Sales Statistics--%>
+<%--                            </a>--%>
+<%--                            <a class="nav-link" href="/admin/product">--%>
+<%--                                <div class="sb-nav-link-icon"></div>--%>
+<%--                                Product--%>
+<%--                            </a>--%>
+<%--                        </div>--%>
+                    <%@include file="/WEB-INF/views/include/admin/sidebar.jsp" %>
+
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as: <security:authorize access="isAuthenticated()">

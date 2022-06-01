@@ -13,7 +13,7 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="/details/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/details/css/bootstrap.min.css?version=44" type="text/css">
     <link rel="stylesheet" href="/details/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="/details/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="/details/css/jquery-ui.min.css" type="text/css">
@@ -41,7 +41,7 @@
             margin-left: auto;
         }
         .brand-section{
-            background-color: #0d1033;
+            background-color: #6c757d;
             padding: 10px 40px;
         }
         .logo{
@@ -126,8 +126,9 @@
                 <nav class="header__menu">
                     <ul>
                         <li class="active"><a href="/home">Home</a></li>
-                        <li><a href="#">Admin Page</a></li>
-                        <li><a href="#">Your Bill</a></li>
+                        <li><a href="/admin/home">Admin Page</a></li>
+                        <li><a href="/user/bill">Your Bill</a></li>
+                        <li><a href="/logout">Logout</a></li>
                     </ul>
                 </nav>
             </div>
@@ -139,7 +140,7 @@
                         </security:authorize>
                     </div>
                     <ul class="header__right__widget">
-                        <li><a href="/user/checkout"><span class="icon_bag_alt"></span>
+                        <li><a href="/user/cart"><span class="icon_bag_alt"></span>
                         </a></li>
                     </ul>
                 </div>
@@ -185,8 +186,17 @@
     <div class="body-section">
         <div class="row">
             <div class="col-6">
-                <h2 class="heading">Invoice No.: 001</h2>
-                <p class="sub-heading">Order Date: 20-20-2021 </p>
+                <h2 class="heading">Invoice No.: ${bill.ID}</h2>
+                <h2 class="heading">Status: <c:choose>
+                    <c:when test="${bill.status == 0}">
+                        Not Approve
+                    </c:when>
+                    <c:otherwise>
+                        Approve
+                    </c:otherwise>
+                </c:choose>
+                </h2>
+                <p class="sub-heading">Order Date: <fmt:formatDate pattern="dd/MM/yyyy" value="${bill.createDate}" /> </p>
                 <p class="sub-heading">Email Address: ${bill.user.getUsername()}</p>
             </div>
             <div class="col-6">
@@ -209,19 +219,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>${item.product.getName()}</td>
-                <td>${item.price}</td>
-                <td>${item.quantity}</td>
-                <td>${item.price * item.quantity}</td>
-            </tr>
+            <c:forEach items="${billDetails}" var="item" varStatus="count">
+                <tr>
+                    <td>${item.product.getName()}</td>
+                    <td>${item.price}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price * item.quantity}</td>
+                </tr>
+            </c:forEach>
+
             <tr>
                 <td colspan="3" class="text-right">Discount Total</td>
-                <td>${bill.priceTotal} VND</td>
+                <td>
+                    <fmt:formatNumber type = "number" maxIntegerDigits = "15" value = "${bill.discountTotal}" />
+                    VND
+                </td>
             </tr>
             <tr>
                 <td colspan="3" class="text-right">Price Total</td>
-                <td>${bill.discountTotal} VND</td>
+                <td>
+                    <fmt:formatNumber type = "number" maxIntegerDigits = "15" value = "${bill.priceTotal}" />
+                    VND
+                </td>
             </tr>
             </tbody>
         </table>

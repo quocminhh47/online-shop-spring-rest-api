@@ -1,15 +1,20 @@
-package com.ptithcm.demospringboot.model;
+package com.ptithcm.quanlybanxe.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class BrandID {
     private String id;
 
+    public BrandID() {
+    }
+
+    public BrandID(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

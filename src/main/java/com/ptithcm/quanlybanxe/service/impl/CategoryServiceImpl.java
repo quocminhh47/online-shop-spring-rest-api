@@ -2,8 +2,12 @@ package com.ptithcm.quanlybanxe.service.impl;
 
 import com.ptithcm.quanlybanxe.entity.Category;
 import com.ptithcm.quanlybanxe.exception.ResourceNotFoundException;
+import com.ptithcm.quanlybanxe.model.CategoryID;
 import com.ptithcm.quanlybanxe.repository.CategoryRepository;
 import com.ptithcm.quanlybanxe.service.CategoryService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
@@ -34,5 +38,21 @@ public class CategoryServiceImpl implements CategoryService {
         );
         categoryRepository.deleteById(id);
     }
+
+    @Override
+    public List<CategoryID> findAllCategoryID() {
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryID> categoryIDS = new ArrayList<>();
+        for(int i=0; i<categories.size(); i++){
+            CategoryID categoryID = new CategoryID();
+            categoryID.setId(String.valueOf(categories.get(i).getId()));
+            categoryIDS.add(categoryID);
+
+        }
+        for(int i=0;i<categoryIDS.size();i++){
+            System.out.println(categoryIDS.get(i).getId());
+        }
+        return categoryIDS;
     }
+}
 
