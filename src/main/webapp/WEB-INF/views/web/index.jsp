@@ -2,6 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="/WEB-INF/views/include/user/menu.jsp" %>
 <%@taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f" %>
+<%--<%@include file="/WEB-INF/views/include/bootstrap-lib.jsp" %>--%>
 <!DOCTYPE html>
 
 <head>
@@ -9,17 +10,24 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
-    <script src="/paging/jquery.twbsPagination.js" type="text/javascript"></script>
+    <script src="<c:url value='/paging/jquery.twbsPagination.js'/>" type="text/javascript"></script>
+    <%--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>--%>
 
     <script type="text/javascript">
         <!-- Ajax Begin -->
         let maSP = "";
-        let firstPage = 1;
+        var firstPage = 1;
+        var formatter = new Intl.NumberFormat(undefined, {
+            style: 'currency',
+            currency: 'VND',
+        });
 
         function getAllProduct() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/api/product/show?page=" + firstPage + "&limit=4",
+                url: "http://localhost:8080/api/product/show?page=" + firstPage + "&limit=8",
+
+                // url: "http://localhost:8080/api/all-product",
                 success: function (nal) {
                     const parent = document.getElementById('parents');
                     console.log("---------------------");
@@ -30,18 +38,22 @@
                     console.log(nal);
                     console.log("---------------------");
                     display(nal.listResult);
+                    // pageable
                     $(function () {
-                        const currentPage = nal.page;
+                        //var currentPage = 2 ;
+                        var currentPage = nal.page;
                         console.log("current page: " + currentPage);
-                        const totalPage = nal.totalPage;
+                        var totalPage = nal.totalPage;
                         console.log("total page: " + totalPage);
-                        const limit = 4;
+                        var limit = 8; //unused variable
                         window.pagObj = $('#pagination').twbsPagination({
                             totalPages: totalPage,
                             visiblePages: 3,
                             startPage: currentPage,
                             onPageClick: function (event, page) {
                                 console.info(page + ' (from options)');
+                                //if(currentPage != page){
+                                // $('#formID').submit();`
                                 $('#page').val(page);
                                 firstPage = page;
                                 $("#parents").empty();
@@ -61,15 +73,17 @@
             const parent = document.getElementById('parents');
 
             for (let i = 0; i < array.length; i++) {
-                const url = array[i].urlImage;
+                var price = formatter.format(array[i].price * (1 - array[i].discount));
+                var oldPrice = formatter.format(array[i].price);
+                var url = array[i].urlImage;
                 parent.innerHTML += '<div class="col-lg-3 col-md-4 col-sm-6 mix women " style="rounded;">' +
                     '   <div id="contain-div">' +
                     '' + '<div class="product__item">' +
-                    ' <div class="product__item__pic set-bg"  data-setbg="'+ url +'" style="background-image: url(' + url + ');">' +
+                    ' <div class="product__item__pic set-bg"  data-setbg="' + url + '" style="background-image: url(' + url + ');">' +
 
                     '<div class="label new">STATUS</div>' +
                     ' <ul class="product__hover" >' +
-                    ' <li><a href="'+url+' " class="image-popup " target="_blank" rel="noopener noreferrer"><span class="arrow_expand"></span></a></li>' +
+                    ' <li><a href="' + url + ' " class="image-popup " target="_blank" rel="noopener noreferrer"><span class="arrow_expand"></span></a></li>' +
                     ' <li><a href="#"><span class="icon_heart_alt"></span></a></li>' +
                     '<li><a href="detail-item.htm"><span class="icon_bag_alt"></span></a></li>' +
                     ' </ul>' +
@@ -79,8 +93,8 @@
                     ' <h5><a href="detail-item-' + array[i].id + '.htm">' + array[i].name + '</a></h5>' +
                     ' <h6><a>Hãng: ' + array[i].brand.name + '</a></h6>' +
                     ' <div class="text-center">' +
-                     '<p>Giá rẻ: <span class="product__price" id="cheap-price">'+ (1-array[i].discount)*(array[i].price)+'</span>' +
-                    '</br>Giá gốc:  <span class="text-muted text-decoration-line-through" >'+ array[i].price +'</span></p>' +
+                    '<p>Giá rẻ: <span class="product__price" id="cheap-price">' + price + '</span>' +
+                    '</br>Giá gốc:  <span class="text-muted text-decoration-line-through" >' + oldPrice + '</span></p>' +
                     '</div>' +
                     '<div class="product__details__button" style="margin-bottom: 0px; margin-left:75px;">' +
                     '<a href="${pageContext.request.contextPath}/home/detail-' + array[i].id + '.htm" class="cart-btn"><span class="icon_bag_alt"></span> Mua</a>' +
@@ -126,32 +140,30 @@
     <div class="loader"></div>
 </div>
 <!-- Banner Section Begin -->
-<section class="banner set-bg"
-<%--         data-setbg="<c:url value='/details/img/banner/banner.jpg'/>--%>
-">
+<section class="banner set-bg" data-setbg="<c:url value='/details/img/banner/banner2.jpg'/>">
     <div class="container">
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">
                 <div class="banner__slider owl-carousel">
                     <div class="banner__item">
                         <div class="banner__text">
-                            <span>LAPTOP CHẤT LƯỢNG CAO</span>
-                            <h1>The MT COMPUTER</h1>
-                            <a href="home/index.htm">Shop now</a>
+                            <span>XE MÁY CHẤT LƯỢNG CAO</span>
+                            <h1 style="color: rgba(173,16,35,0.82);">The MT COMPUTER</h1>
+                            <a href="/home">Shop now</a>
                         </div>
                     </div>
                     <div class="banner__item">
                         <div class="banner__text">
                             <span>LO LẮNG VẬN CHUYỂN?</span>
-                            <h1>FREE SHIP</h1>
-                            <a href="home/index.htm">Shop now</a>
+                            <h1 style="color: rgba(173,16,35,0.82);">FREE SHIP</h1>
+                            <a href="/home">Shop now</a>
                         </div>
                     </div>
                     <div class="banner__item">
                         <div class="banner__text">
                             <span>NHÂN VIÊN TẬN TÌNH</span>
-                            <h1>HỖ TRỢ 24/24</h1>
-                            <a href="home/index.htm">Shop now</a>
+                            <h1 style="color: rgba(173,16,35,0.82);">HỖ TRỢ 24/24</h1>
+                            <a href="/home">Shop now</a>
                         </div>
                     </div>
                 </div>
@@ -170,37 +182,37 @@ ${mess }
                     <h5>DANH SÁCH SẢN PHẨM</h5>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-8">
-                <ul class="filter__controls">
-                    Lọc theo giá : &nbsp; <a href="filter-by-gia-duoi-10-trieu.htm">
-                    <li class="active">Dưới 20 triệu</li>
-                </a> &nbsp; &nbsp;
-                    <a href="filter-by-gia-10-20-trieu.htm">
-                        <li class="active">20 - 40 triệu</li>
+            <%--    <div class="col-lg-8 col-md-8">
+                    <ul class="filter__controls">
+                        Lọc theo giá : &nbsp; <a href="filter-by-gia-duoi-10-trieu.htm">
+                        <li class="active">Dưới 20 triệu</li>
                     </a> &nbsp; &nbsp;
-                    <a href="filter-by-gia-20-30-trieu.htm">
-                        <li class="active">40 - 60 triệu</li>
-                    </a> &nbsp; &nbsp;
-                    <a href="filter-by-gia-tren-30-trieu.htm">
-                        <li class="active"> Trên 60 triệu</li>
-                    </a>&nbsp; &nbsp;
-                </ul>
+                        <a href="filter-by-gia-10-20-trieu.htm">
+                            <li class="active">20 - 40 triệu</li>
+                        </a> &nbsp; &nbsp;
+                        <a href="filter-by-gia-20-30-trieu.htm">
+                            <li class="active">40 - 60 triệu</li>
+                        </a> &nbsp; &nbsp;
+                        <a href="filter-by-gia-tren-30-trieu.htm">
+                            <li class="active"> Trên 60 triệu</li>
+                        </a>&nbsp; &nbsp;
+                    </ul>
 
-            </div>
+                </div>--%>
             </br>
             <div class="col-lg-8 col-md-8" style="text-align:center;">
                 <ul class="filter__controls">
-                    Lọc theo hãng : &nbsp; <a href="filter-by-gia-duoi-10-trieu.htm">
+                    &nbsp; <a href="/home/product?brand=HONDA">
                     <li class="active">HONDA</li>
                 </a> &nbsp; &nbsp;
-                    <a href="filter-by-gia-10-20-trieu.htm">
+                    <a href="/home/product?brand=SUZUKI">
                         <li class="active">SUZUKI</li>
                     </a> &nbsp; &nbsp;
-                    <a href="filter-by-gia-20-30-trieu.htm">
+                    <a href="/home/product?brand=YAMAHA">
                         <li class="active">YAMAHA</li>
                     </a> &nbsp; &nbsp;
-                    <a href="filter-by-gia-tren-30-trieu.htm">
-                        <li class="active">KHÁC</li>
+                    <a href="/home/product?brand=SYM">
+                        <li class="active">SYM</li>
                     </a>&nbsp; &nbsp;
                 </ul>
             </div>
@@ -228,7 +240,7 @@ ${mess }
         <div class="row">
             <div class="col-lg-6 p-0">
                 <div class="discount__pic">
-<%--                    <img src="<c:url value='/details/img/discount.jpg'/>" alt=""/>--%>
+                    <img src="<c:url value='/details/img/discount.jpg'/>" alt=""/>
                 </div>
             </div>
             <div class="col-lg-6 p-0">
@@ -307,7 +319,19 @@ ${mess }
         </div>
     </div>
 </section>
+<!-- Services Section End -->
 
+
+<!-- Footer Section Begin -->
+<%--<%@include file="/WEB-INF/views/include/footer.jsp" %>--%>
+<!-- Footer Section End -->
+
+<!-- Paging function Begin -->
+
+<!-- Paging function End -->
+
+<!-- Js Plugins -->
+<%--    <script src="<c:url value='/details/js/jquery-3.3.1.min.js'/>"></script>--%>
 <script src="<c:url value='/details/js/bootstrap.min.js'/>"></script>
 <script src="<c:url value='/details/js/jquery.magnific-popup.min.js'/>"></script>
 <script src="<c:url value='/details/js/jquery-ui.min.js'/>"></script>

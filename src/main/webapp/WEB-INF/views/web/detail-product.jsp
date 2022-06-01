@@ -2,11 +2,9 @@
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/include/user/menu.jsp" %>
 <%@taglib uri="http://java.sun.com/jstl/fmt_rt" prefix="f" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%--<security:authorize access="isAuthenticated()">--%>
-<%--    <security:authentication property="principal.username" />--%>
-<%--</security:authorize>--%>
-<html lang="en">
+<%@include file="/WEB-INF/views/include/bootstrap-lib.jsp" %>
+<html lang="zxx">
+
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Ashion Template">
@@ -21,22 +19,29 @@
           rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- Css Styles -->
-    <link rel="stylesheet" href="/details/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/details/css/style.css" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/bootstrap.min.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/font-awesome.min.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/elegant-icons.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/jquery-ui.min.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/magnific-popup.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/owl.carousel.min.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/slicknav.min.css'/>" type="text/css">
+    <link rel="stylesheet" href="<c:url value='/details/css/style.css'/>" type="text/css">
 
     <%--    Ajax--%>
     <script type="text/javascript">
+        //var id  = ${id};
+        var formatter = new Intl.NumberFormat(undefined, {
+            style: 'currency',
+            currency: 'VND',
+        });
 
         function getProductInfo() {
+
             $.ajax({
                 type: "GET",
                 url: "http://localhost:8080/api/product/detail-${id}",
+                //dataType: "j"
                 success: function (data) {
                     console.log(data);
                     displayImg(data);
@@ -46,47 +51,64 @@
         }
 
         function displayImg(data) {
+            //set img src
             $('#img1').attr("src", data.urlImage),
                 $('#img2').attr("src", data.urlImage2),
                 $('#img3').attr("src", data.urlImage3);
             $('#img4').attr("src", data.urlImage4);
+            //set big img src
             $('#big-img1').attr("src", data.urlImage),
                 $('#big-img2').attr("src", data.urlImage2),
                 $('#big-img3').attr("src", data.urlImage3);
             $('#big-img4').attr("src", data.urlImage4);
-            document.getElementById("parent").innerHTML = 'Giá: <div class="product__details__price" value="' + data.price * (1 - data.discount) +'">' + '<div id="priceAfter" >'+data.price * (1 - data.discount) + '</div>'+ '<span>' + data.price + '</span></div>';
+            //set attribute
+            //name
+            document.getElementById('name-product').innerText = data.name;
+            //price
+            var price  = formatter.format(data.price * (1 - data.discount));
+            var oldPrice = formatter.format(data.price);
+            document.getElementById("parent").innerHTML = 'Giá: <div class="product__details__price">' +price + '<span>' + oldPrice + '</span></div>';
+            //set other:
             document.getElementById("brand-name").innerText = data.brand.name;
             document.getElementById("type-name").innerText = data.category.name;
             document.getElementById("cc").innerText = data.cc + '(CC)';
             document.getElementById("status").innerText = data.status;
+            document.getElementById("quantiy").innerText = data.quantity;
+            document.getElementById("quantity-id").setAttribute("max", data.quantity );
+            document.getElementById("description").innerText = data.description;
         }
 
         function saveComment() {
             let content = document.getElementById("cmt-content").value;
-            let comment = {
-                noiDung: content
-            }
-            console.log(comment);
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                type: 'POST',
-                url: 'http://localhost:8080/api/comment/save-${id}',
-                data: JSON.stringify(comment),
-                success: function (notification) {
-                    const sign = notification.response;
-                    if(sign == "OK") {
-                        alert("Comment success!!");
-                        location.reload();
-                    }
-                    else {alert("Comment failed, try again");}
-                },
-                error: function (error) {
-                 alert("Comment failed, try again")
+            if(content){
+                let comment = {
+                    noiDung: content
                 }
-            })
+                console.log(comment);
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json; charset=utf-8' ,
+
+                    },
+                    type: 'POST',
+                    url: 'http://localhost:8080/api/comment/save-${id}',
+                    data: JSON.stringify(comment),
+                    success: function (notification) {
+                        var sign = notification.response;
+                        if(sign == "OK") {
+                            alert("Comment success!!");
+                            location.reload();
+                        }
+                        else {alert("Comment failed, try again");}
+                    },
+                    error: function (error) {
+                        alert("Comment failed, try again")
+                    }
+                })
+            } else {
+                alert("Please enter comment before submit!")
+            }
 
         }
 
@@ -120,12 +142,12 @@
             })
         }
 
-
     </script>
 </head>
 
 <body onload="getProductInfo()">
-
+<!-- Header Section End -->
+<!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
         <div class="row">
@@ -174,7 +196,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3 id="name-product">Tên sản phẩm - Thiếu</h3>
+                    <h3 id="name-product">TÊN SP </h3>
                     <span id="id-product">Mã SP: ${id}</span>
                     <div class="rating">
                         <i class="fa fa-star"></i>
@@ -182,9 +204,11 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
+                        <%--                            <span>( 138 reviews )</span>--%>
                     </div>
 
                     <div id="parent">
+                        <%--                            <div class="product__details__price">1<span>2</span></div>--%>
                     </div>
 
                     <p> • Nhấn order để đặt hàng </br>
@@ -192,18 +216,18 @@
                         • Điền thông tin cá nhân</br>
                         và sau đó nhân viên sẽ chủ động liên hệ bạn để xác nhận đơn hàng <3.</p>
                     <div class="product__details__button">
-<%--                        <form action="order-${id}.htm">--%>
+                        <form action="order-${id}.htm">
                             <ul>
-                                <input id="quanlity" name="sl" class="form-control text-center me-3" min="1" max="100" type="number"
-                                       value="1" style="max-width: 3rem" required="required"/>
+                                <input name="sl" class="form-control text-center me-3" min="1"  type="number" id="quantity-id"
+                                       value="1" style="max-width: 4rem" required="required"/>
                                 </br>
-                                <button class="cart-btn"
-                                        <security:authorize access="isAuthenticated()">
-                                            data-username="<security:authentication property="principal.username" />"
-                                        </security:authorize>
-                                        data-id="${id}" type="submit">Order</button>
+                                <button class="cart-btn" type="submit">Order</button>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_adjust-horiz"></span></a></li>
                             </ul>
-<%--                        </form>--%>
+
+
+                        </form>
                     </div>
 
                     <div class="product__details__widget">
@@ -225,6 +249,10 @@
                                 <p id="status">NULL</p>
                             </li>
                             <li>
+                                <span>SỐ LƯỢNG : </span>
+                                <p id="quantiy">NULL</p>
+                            </li>
+                            <li>
                                 <span>GIAO HÀNG: </span>
                                 <p>Free shipping</p>
                             </li>
@@ -244,12 +272,14 @@
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">Comments</a>
                         </li>
-
+                        <!--  <li class="nav-item">
+                             <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">Reviews ( 2 )</a>
+                         </li> -->
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
                             <h6>Description</h6>
-                            <p>${sp.description }</p>
+                            <p id="description">Mô tả</p>
                         </div>
                         <div class="tab-pane" id="tabs-2" role="tabpanel">
                             <h6>Comments</h6>
@@ -266,51 +296,18 @@
 <!-- Product Details Section End -->
 
 <!-- Js Plugins -->
-<script src="/details/js/jquery-3.3.1.min.js"></script>
-<script src="/details/js/bootstrap.min.js"></script>
-<script src="/details/js/jquery.magnific-popup.min.js"></script>
-<script src="/details/js/jquery-ui.min.js"></script>
-<script src="/details/js/mixitup.min.js"></script>
-<script src="/details/js/jquery.countdown.min.js"></script>
-<script src="/details/js/jquery.slicknav.js"></script>
-<script src="/details/js/owl.carousel.min.js"></script>
-<script src="/details/js/jquery.nicescroll.min.js"></script>
-<script src="/details/js/main.js"></script>
-
-<script type="text/javascript">
-    $(".cart-btn").click(function () {
-        const productId = $(this).attr("data-id");
-        const username = $(this).attr("data-username");
-        const quanlity = $("#quanlity").val();
-        const price = $("#priceAfter").text();
-
-        let cartDetails = {
-            product : {
-                id: productId
-            },
-            quantity: quanlity,
-            price: price
-        }
-        const url = 'http://localhost:8080/api/cart/'+username+'/cartDetails';
-
-        $.ajax({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            type: 'POST',
-            url: url,
-            data: JSON.stringify(cartDetails),
-            success: function () {
-                alert("Thêm sản phẩm vào giỏ hàng thành công!")
-            },
-            error: function (error) {
-                alert("Error!"+error)
-            }
-        })
-    });
-
-</script>
+<script src="<c:url value='/details/js/jquery-3.3.1.min.js'/>"></script>
+<script src="<c:url value='/details/js/bootstrap.min.js'/>"></script>
+<script src="<c:url value='/details/js/jquery.magnific-popup.min.js'/>"></script>
+<script src="<c:url value='/details/js/jquery-ui.min.js'/>"></script>
+<script src="<c:url value='/details/js/mixitup.min.js'/>"></script>
+<script src="<c:url value='/details/js/jquery.countdown.min.js'/>"></script>
+<script src="<c:url value='/details/js/jquery.slicknav.js'/>"></script>
+<script src="<c:url value='/details/js/owl.carousel.min.js'/>"></script>
+<script src="<c:url value='/details/js/jquery.nicescroll.min.js'/>"></script>
+<script src="<c:url value='/details/js/main.js'/>"></script>
 </body>
-
+<!-- Footer Section Begin -->
+<%--<%@include file="/WEB-INF/views/include/footer.jsp" %>--%>
+<!-- Footer Section End -->
 </html>

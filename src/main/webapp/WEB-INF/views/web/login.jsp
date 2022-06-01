@@ -59,7 +59,10 @@
                     if(sign == "OK"){
                         alert("Login success");
                         window.location.href = "http://localhost:8080/home";
-                    } else alert("Login failed");
+                    } else {
+                        document.getElementById("notification").innerHTML="Email or password is wrong!"
+                        alert("Login failed");
+                    }
                 } ,
 
 
@@ -82,6 +85,7 @@
     <div class="container-login100">
         <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
             ${mess}
+            <p id="notification" style="color: red;"></p>
             <form class="login100-form validate-form flex-sb flex-w"  id="form_id" >
                 <span class="login100-form-title p-b-32">
 						Account Login

@@ -1,7 +1,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="/WEB-INF/views/include/user/menu.jsp" %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,34 +23,40 @@
             let email = document.getElementById("email").value;
             let password = document.getElementById("pass").value;
 
-            let information ={
-                firstName : firstName,
-                lastName: lastName,
-                email: email,
-                password: password
-            }
-            console.log(information);
-            $.ajax({
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                type: 'POST',
-                url: 'http://localhost:8080/v1/api/registration',
-                data: JSON.stringify(information),
-               success : function (notification) {
-                 var sign = notification.response;
-                   if(sign == "OK") {
-                       alert("Success!! Confirm mail to complete");
-                      // location.reload();
-                       window.location.href = "http://localhost:8080/login";
-                   }
-                   else{ alert("Register failed, try again");}
-               },
-                error: function (error) {
-                    alert("Register failed, try again")
+            if(firstName != "" || lastName != "" || email != "" || password != ""){
+                let information ={
+                    firstName : firstName,
+                    lastName: lastName,
+                    email: email,
+                    password: password
                 }
-            })
+                console.log(information);
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    type: 'POST',
+                    url: 'http://localhost:8080/v1/api/registration',
+                    data: JSON.stringify(information),
+                    success : function (notification) {
+                        var sign = notification.response;
+                        if(sign == "OK") {
+                            alert("Success!! Confirm mail to complete");
+                            // location.reload();
+                            window.location.href = "http://localhost:8080/login";
+                        }
+                        else{alert("Register failed, try again. Make sure that email is not registered yet!")
+                        }
+                    },
+                    error: function (error) {
+                        alert("Register failed, try again. Make sure that email is not registered yet!")
+                    }
+                })
+            } else {
+                alert("Please provide fully information!!")
+            }
+
         }
 
         function redirect(){
@@ -80,7 +85,7 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                        <h2 class="form-title">Sign up for Admin member</h2>
+                        <h2 class="form-title">Sign up for new member</h2>
                         ${mess}
                         <form  class="register-form" id="register-form">
                             <div class="form-group">
@@ -104,7 +109,7 @@
                                 <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
                             </div>--%>
                             <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"  required="required"/>
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"  required="required" checked/>
                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
                             </div>
                             <div class="form-group form-button">
@@ -115,7 +120,7 @@
                         <button class="form-submit" onclick="register()">Register</button>
                     </div>
                     <div class="signup-image">
-                        <figure><img src="<c:url value='/registration/images/signup-image.jpg'/>" alt="sing up image"></figure>
+                        <figure><img src="<c:url value='/registration/images/signup.jpg'/>" alt="sing up image"></figure>
                         <a href="${pageContext.request.contextPath}/login" class="signup-image-link">I am already member</a>
                     </div>
                 </div>
